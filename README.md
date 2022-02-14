@@ -192,8 +192,73 @@ On successful creation of the pipe, zero is returned. Otherwise, a value of -1 i
 
 ### dup, dup2 -- duplicate an existing file descriptor
 
+	int	dup(int fildes);
+	int	dup2(int fildes, int fildes2);
 
+Upon successful completion, the new file descriptor is returned.  Otherwise, a value of -1 is returned and the global integer variable errno is set to indicate the error.
 
+  file_descriptors	|	file
+  -----------------------------------------
+        0			|	STDIN
+		1			|	STDOUT
+		2			|	STDERR
+		3			|	pingResults.txt
+		4			|	pingResults.txt
+
+	file2 = dup(file);
+
+	#include <unistd.h>
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <sys/wait.h>
+	#include <sys/types.h>
+	#include <sys/stat.h>
+	#include <fcntl.h>
+
+	//0777 (int 511) -r-x--x--x
+
+	int	main(int argc, char *argv[])
+	{
+		int	pid;
+		int	err;
+		int	wstatus;
+		int	status_code;
+		int	file;
+		int	file2;
+
+		pid = fork();
+		if (pid == -1)
+			return (1);
+		if (pid == 0)
+		{
+			file = open("pingResults.txt", O_WRONLY | O_CREAT, 0777);
+			if (file == -1)
+				return (2);
+			file2 = dup2(file, 1);
+			printf("The fd of ping results=%d\n", file2);
+			close(file);
+			err = execlp("ping", "ping", "-c", "3", "google.com", NULL);
+			if (err == -1)
+			{
+				printf("Could not find program to execute!\n");
+				return (2);
+			}
+		}
+		else
+		{
+			wait(&wstatus);
+			if (WIFEXITED (wstatus))
+			{
+				status_code = WEXITSTATUS (wstatus);
+				if (status_code == 0)
+					printf("Success!\n");
+				else
+					printf("Failure with status code %d\n", status_code);
+			}
+			printf("Some post processing goes here!\n");
+		}
+		return (0);
+	}
 
 ### execve -- execute a file
 
@@ -228,6 +293,15 @@ If execve() does return to the calling process, an error has occurred; the retur
     printf("Hello world from id=%d and id1=%d, \n", id, id1);
     return (0);
 
+
+### perror, strerror -- system error messages 
+
+	void	perror(const char *s);
+	char	*strerror(int errnum);
+
+The perror() function finds the error message corresponding to the current value of the global variable errno (intro(2)) and writes it, followed by a newline, to the standard error file descriptor.
+
+The strerror() function accepts an error number argument errnum and returns a pointer to the corresponding message string.
 
 ## Useful souces
 
