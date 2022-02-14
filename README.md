@@ -293,6 +293,7 @@ If execve() does return to the calling process, an error has occurred; the retur
     printf("Hello world from id=%d and id1=%d, \n", id, id1);
     return (0);
 
+Upon successful completion, fork() returns a value of 0 to the child process and returns the process ID of the child process to the parent process.  Otherwise, a value of -1 is returned to the parent process, no child process is created, and the global variable errno is set to indicate the error.
 
 ### perror, strerror -- system error messages 
 
@@ -302,6 +303,12 @@ If execve() does return to the calling process, an error has occurred; the retur
 The perror() function finds the error message corresponding to the current value of the global variable errno (intro(2)) and writes it, followed by a newline, to the standard error file descriptor.
 
 The strerror() function accepts an error number argument errnum and returns a pointer to the corresponding message string.
+
+## Errors im pipex
+
+1 - Invalid number of arguments
+2 - Error woth opening the pipe
+3 - Error with fork
 
 ## Useful souces
 
