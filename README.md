@@ -275,12 +275,19 @@ If execve() does return to the calling process, an error has occurred; the retur
 
 
 	// Print envp
-    i = 0;
-    while (envp[i] != NULL)
-    {
-        printf("%s\n", envp[i]);
-        i++;
-    }
+	int	main(int argc, char **argv, char **envp)
+	{
+		int	i;
+		i = 0;
+		while (envp[i] != NULL)
+		{
+			ft_putstr_fd(envp[i], 1);
+			ft_putstr_fd("\n", 1);
+			i++;
+		}
+	}
+
+	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin	
 
 ### fork -- create a new process
 
