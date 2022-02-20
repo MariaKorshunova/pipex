@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 16:44:24 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/19 19:32:29 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/02/20 19:50:07 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,29 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*dest;
+	size_t	i;
+	size_t	j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	i = 0;
+	dest = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (dest == NULL)
+		return (NULL);
+	while (i < ft_strlen(s1))
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	j = i;
+	i = 0;
+	while (i < ft_strlen(s2))
+		dest[j++] = s2[i++];
+	dest[j] = '\0';
+	return (dest);
 }

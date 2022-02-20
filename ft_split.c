@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:56:45 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/19 19:55:00 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/02/20 15:44:41 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static	size_t	ft_str_count(char const *s, char c)
 	return (count);
 }
 
-void	ft_free_array(char **arr, size_t len)
+static void	ft_free_array_with_len(char **arr, size_t len)
 {
 	size_t	i;
 
@@ -79,7 +79,7 @@ static	char	**ft_make_array(char **arr, char const *s, char c)
 		{
 			arr[i++] = ft_substr(start, 0, letter);
 			if (arr == NULL)
-				ft_free_array(arr, i);
+				ft_free_array_with_len(arr, i);
 		}
 	}
 	arr[i] = NULL;

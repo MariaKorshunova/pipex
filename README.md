@@ -311,12 +311,6 @@ The perror() function finds the error message corresponding to the current value
 
 The strerror() function accepts an error number argument errnum and returns a pointer to the corresponding message string.
 
-## Errors im pipex
-
-1 - Invalid number of arguments
-2 - Error woth opening the pipe
-3 - Error with fork
-
 ## Useful souces
 
 https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901
