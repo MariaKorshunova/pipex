@@ -6,7 +6,7 @@
 #    By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:08:19 by jmabel            #+#    #+#              #
-#    Updated: 2022/02/20 15:31:29 by jmabel           ###   ########.fr        #
+#    Updated: 2022/02/21 16:04:25 by jmabel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME				= 	pipex
 HEADER				=	pipex.h
 
 SRCS				=	pipex.c	parser.c	childs_process.c	free.c\
+						file_operations.c\
 						libft_utils.c	ft_split.c\
 
 OBJ 				= 	$(SRCS:%.c=%.o)

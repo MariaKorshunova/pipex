@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:56:45 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/20 15:44:41 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/02/21 12:59:14 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ char	**ft_split(char const *s, char c)
 {
 	char		**arr;
 
-	if (!s)
-		return (NULL);
 	arr = malloc(sizeof(*arr) * (ft_str_count(s, c) + 1));
 	if (arr == NULL)
 		return (NULL);
