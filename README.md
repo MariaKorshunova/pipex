@@ -141,6 +141,8 @@ Solving sync problems. Task to print in ascending order digits 1-5 (child proces
 
 	int	pipe(int fildes[2])
 
+Data written fildes[1] appears on (i.e., can be read from) fildes[0].
+
 The pipe() function creates a pipe (an object that allows unidirectional data flow) and allocates a pair of file descriptors.
 * The first descriptor connects to the read end of the pipe;
 * the second connects to the write end.
@@ -155,7 +157,7 @@ On successful creation of the pipe, zero is returned. Otherwise, a value of -1 i
 
 		if (pipe(fd) == -1)
 		{
-			printf("Error woth opening the pipe\n");
+			printf("Error with opening the pipe\n");
 			return (1);
 		}
 		id = fork();

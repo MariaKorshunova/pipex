@@ -6,7 +6,7 @@
 #    By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:08:19 by jmabel            #+#    #+#              #
-#    Updated: 2022/02/21 16:04:25 by jmabel           ###   ########.fr        #
+#    Updated: 2022/02/27 18:39:12 by jmabel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS				=	pipex.c	parser.c	childs_process.c	free.c\
 OBJ 				= 	$(SRCS:%.c=%.o)
 
 CC 					= 	cc 
-CFLAGS 				= 	-Wall -Wextra -Werror
+CFLAGS 				= 	#-Wall -Wextra #-Werror
 
 RM 					= 	rm -rf
 

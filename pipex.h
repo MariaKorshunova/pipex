@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:39:41 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/21 16:09:51 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/02/27 19:59:03 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define ERR_FORK 6
 # define ERR_DUP 7
 # define ERR_EXEC 8
+# define ERR_PIPE 9
 
 # define PATH "PATH="
 
@@ -36,6 +37,8 @@ typedef struct s_pipex
 {
 	int		infile_fd;
 	int		outfile_fd;
+	int		fd[2];
+	pid_t	child[2];
 	char	**bin_path;
 	char	**cmd1;
 	char	**cmd2;
@@ -51,7 +54,7 @@ void	ft_parser(t_pipex *pipex, char **argv, char **envp);
 char	**ft_get_path(char **envp);
 char	**ft_get_cmd(char *argv);
 
-void	ft_child_1(t_pipex	*pipex, char **envp);
+void	ft_child(t_pipex *pipex, char **envp);
 
 void	ft_open_files(t_pipex *pipex, char **argv);
 void	ft_close_file(int fd);
