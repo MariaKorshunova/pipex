@@ -6,31 +6,13 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:01:50 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/21 14:42:14 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/02/28 20:24:40 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_parser(t_pipex *pipex, char **argv, char **envp)
-{
-	if (argv[2][0] == '\0' || argv[3][0] == '\0')
-	{
-		ft_putstr_fd("ERR_READ_CMD\n", 2);
-		exit(ERR_READ_CMD);
-	}
-	pipex->bin_path = ft_get_path(envp);
-	pipex->cmd1 = ft_get_cmd(argv[2]);
-	pipex->cmd2 = ft_get_cmd(argv[3]);
-	if (!pipex->cmd1 || !pipex->cmd2)
-	{
-		ft_free_array(pipex->bin_path);
-		perror("");
-		exit (ERR_MEMORY_ALLOCATE);
-	}
-}
-
-char	**ft_get_path(char **envp)
+static char	**ft_get_path(char **envp)
 {
 	int		i;
 	char	**bin_path;
@@ -57,10 +39,28 @@ char	**ft_get_path(char **envp)
 	return (bin_path);
 }
 
-char	**ft_get_cmd(char *argv)
+static char	**ft_get_cmd(char *argv)
 {
 	char	**cmd;
 
 	cmd = ft_split(argv, ' ');
 	return (cmd);
+}
+
+void	ft_parser(t_pipex *pipex, char **argv, char **envp)
+{
+	if (argv[2][0] == '\0' || argv[3][0] == '\0')
+	{
+		ft_putstr_fd("ERR_READ_CMD\n", 2);
+		exit(ERR_READ_CMD);
+	}
+	pipex->bin_path = ft_get_path(envp);
+	pipex->cmd1 = ft_get_cmd(argv[2]);
+	pipex->cmd2 = ft_get_cmd(argv[3]);
+	if (!pipex->cmd1 || !pipex->cmd2)
+	{
+		ft_free_array(pipex->bin_path);
+		perror("./pipex");
+		exit (ERR_MEMORY_ALLOCATE);
+	}
 }

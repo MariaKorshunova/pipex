@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:04 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/27 20:41:39 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/02/28 19:12:08 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
 	{
 		execve(cmd[0], cmd, envp);
 		ft_free_pipex(pipex);
-		perror("./pipex: ");
+		perror("./pipex");
 		exit(ERR_EXEC);
 	}
 	if (!pipex->bin_path)
@@ -40,7 +40,7 @@ static void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 		if (!cmd_with_path)
 		{
 			ft_free_pipex(pipex);
-			perror("./pipex: ");
+			perror("./pipex");
 			exit (ERR_MEMORY_ALLOCATE);
 		}
 		if (access(cmd_with_path, 01) == 0)
@@ -48,7 +48,7 @@ static void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 			execve(cmd_with_path, cmd, envp);
 			ft_free_pipex(pipex);
 			free(cmd_with_path);
-			perror("./pipex: ");
+			perror("./pipex");
 			exit(ERR_EXEC);
 		}
 		free(cmd_with_path);
@@ -56,78 +56,79 @@ static void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 	}
 }
 
-static void	ft_child_1(t_pipex	*pipex, char **envp)
+static void	ft_child_0(t_pipex	*pipex, char **argv, char **envp)
 {
-	ft_close_file(pipex->outfile_fd);
-	ft_close_file(pipex->fd[0]);
+	ft_close_file(pipex->outfile_fd, argv[4]);
+	ft_close_file(pipex->fd[0], NULL);
 	if (dup2(pipex->infile_fd, STDIN_FILENO) == -1)
 	{
-		ft_close_file(pipex->infile_fd);
-		ft_close_file(pipex->fd[1]);
+		ft_close_file(pipex->infile_fd, argv[1]);
+		ft_close_file(pipex->fd[1], NULL);
 		ft_free_pipex(pipex);
-		perror("./pipex: ");
+		perror("./pipex");
 		exit(ERR_DUP);
 	}
 	if (dup2(pipex->fd[1], STDOUT_FILENO) == -1)
 	{
-		ft_close_file(pipex->infile_fd);
-		ft_close_file(pipex->fd[1]);
+		ft_close_file(pipex->infile_fd, argv[1]);
+		ft_close_file(pipex->fd[1], NULL);
 		ft_free_pipex(pipex);
-		perror("./pipex: ");
+		perror("./pipex");
 		exit(ERR_DUP);
 	}
-	ft_close_file(pipex->infile_fd);
-	ft_close_file(pipex->fd[1]);
+	ft_close_file(pipex->infile_fd, argv[1]);
+	ft_close_file(pipex->fd[1], NULL);
 	ft_exec_without_path(pipex, envp, pipex->cmd1);
 	ft_exec_with_path(pipex, envp, pipex->cmd1);
 	ft_free_pipex(pipex);
 	exit(ERR_EXECUTE_CMD);
 }
 
-static void	ft_child_2(t_pipex	*pipex, char **envp)
+static void	ft_child_1(t_pipex	*pipex, char **argv, char **envp)
 {
-	ft_close_file(pipex->infile_fd);
-	ft_close_file(pipex->fd[1]);
+	ft_close_file(pipex->infile_fd, argv[1]);
+	ft_close_file(pipex->fd[1], NULL);
 	if (dup2(pipex->fd[0], STDIN_FILENO) == -1)
 	{
-		ft_close_file(pipex->outfile_fd);
-		ft_close_file(pipex->fd[0]);
+		ft_close_file(pipex->outfile_fd, argv[4]);
+		ft_close_file(pipex->fd[0], NULL);
 		ft_free_pipex(pipex);
-		perror("./pipex: ");
+		perror("./pipex");
 		exit(ERR_DUP);
 	}
 	if (dup2(pipex->outfile_fd, STDOUT_FILENO) == -1)
 	{
-		ft_close_file(pipex->outfile_fd);
-		ft_close_file(pipex->fd[0]);
+		ft_close_file(pipex->outfile_fd, argv[4]);
+		ft_close_file(pipex->fd[0], NULL);
 		ft_free_pipex(pipex);
-		perror("./pipex: ");
+		perror("./pipex");
 		exit(ERR_DUP);
 	}
-	ft_close_file(pipex->outfile_fd);
-	ft_close_file(pipex->fd[0]);
+	ft_close_file(pipex->outfile_fd, argv[4]);
+	ft_close_file(pipex->fd[0], NULL);
 	ft_exec_without_path(pipex, envp, pipex->cmd2);
 	ft_exec_with_path(pipex, envp, pipex->cmd2);
 	ft_free_pipex(pipex);
 	exit(ERR_EXECUTE_CMD);
 }
 
-void	ft_child(t_pipex *pipex, char **envp)
+void	ft_child(t_pipex *pipex, char **argv, char **envp, int *status)
 {
 	pipex->child[0] = fork();
 	if (pipex->child[0] < 0)
 	{
-		perror ("./pipex: ");
+		perror ("./pipex");
 		exit (ERR_FORK);
 	}
 	else if (pipex->child[0] == 0)
-		ft_child_1(pipex, envp);
+		ft_child_0(pipex, argv, envp);
+	waitpid(pipex->child[0], status, 0);
 	pipex->child[1] = fork();
 	if (pipex->child[1] < 0)
 	{
-		perror ("./pipex: ");
+		perror ("./pipex");
 		exit (ERR_FORK);
 	}
 	else if (pipex->child[1] == 0)
-		ft_child_2(pipex, envp);
+		ft_child_1(pipex, argv, envp);
 }

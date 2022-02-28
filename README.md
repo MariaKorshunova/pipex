@@ -26,6 +26,7 @@ simulating the pipe "|" operator in C
 If successful, open() returns a non-negative integer, termed a file descriptor.
 It returns -1 on failure, and sets errno to indicate the error.
 
+0644 rw-r--r-- Право на чтение для всех, право на запись для владельца. Обычно ставится на большинство файлов с неприватными данными
 
 ### unlink -- removes the link named by path from its directory and decrements the link count of the file which was referenced by the link.
     
@@ -318,3 +319,21 @@ The strerror() function accepts an error number argument errnum and returns a po
 https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901
 
 https://www.youtube.com/watch?v=6xbLgZpOBi8&t=2s
+
+## Cases for checking
+< infile ls -l | wc -l > outfile
+./pipex infile "ls -l" "wc -l" outfile
+
+< infile grep a1 | wc -w > outfile
+./pipex infile "grep a1" "wc -w" outfile
+
+./pipex infile yes head outfile
+
+< infile_none cat | grep 0 > outfile
+
+1. отсутствует или недоступен инфайл - done
+2. неверная команда 1
+3. неверная команда 2
+4. существующий но недоступный аутфайл - done
+5. код доступа у аутфайла 644 - done
+6. разные комбинации 1-4

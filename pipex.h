@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:39:41 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/27 19:59:03 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/02/28 19:39:14 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # define ERR_NUMBER_ARG 1
 # define ERR_MEMORY_ALLOCATE 2
@@ -50,14 +52,13 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin_slash(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 
-void	ft_parser(t_pipex *pipex, char **argv, char **envp);
-char	**ft_get_path(char **envp);
-char	**ft_get_cmd(char *argv);
+void	ft_error(char *name);
 
-void	ft_child(t_pipex *pipex, char **envp);
+void	ft_parser(t_pipex *pipex, char **argv, char **envp);
+void	ft_child(t_pipex *pipex, char **argv, char **envp, int *status);
 
 void	ft_open_files(t_pipex *pipex, char **argv);
-void	ft_close_file(int fd);
+void	ft_close_file(int fd, char *name);
 
 void	ft_free_array(char **arr);
 void	ft_free_pipex(t_pipex *pipex);
