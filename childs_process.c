@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:04 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/28 19:12:08 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/02 21:46:29 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,23 @@ static void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 	}
 }
 
+// static void	ft_dup2(t_pipex	*pipex, int fd, char *name)
+// {
+// 	if (dup2(pipex->infile_fd, fd) == -1)
+// 	{
+// 		ft_close_file(pipex->infile_fd, name);
+// 		ft_close_file(pipex->fd[1], NULL);
+// 		ft_free_pipex(pipex);
+// 		perror("./pipex");
+// 		exit(ERR_DUP);
+// 	}	
+// }
+
 static void	ft_child_0(t_pipex	*pipex, char **argv, char **envp)
 {
 	ft_close_file(pipex->outfile_fd, argv[4]);
 	ft_close_file(pipex->fd[0], NULL);
+	// ft_dup2(pipex, STDIN_FILENO, argv[1]);
 	if (dup2(pipex->infile_fd, STDIN_FILENO) == -1)
 	{
 		ft_close_file(pipex->infile_fd, argv[1]);
@@ -68,18 +81,23 @@ static void	ft_child_0(t_pipex	*pipex, char **argv, char **envp)
 		perror("./pipex");
 		exit(ERR_DUP);
 	}
-	if (dup2(pipex->fd[1], STDOUT_FILENO) == -1)
+	if (pipex->outfile_fd != -1)
 	{
-		ft_close_file(pipex->infile_fd, argv[1]);
-		ft_close_file(pipex->fd[1], NULL);
-		ft_free_pipex(pipex);
-		perror("./pipex");
-		exit(ERR_DUP);
+		// ft_dup2(pipex, STDOUT_FILENO, argv[1]);
+		if (dup2(pipex->fd[1], STDOUT_FILENO) == -1)
+		{
+			ft_close_file(pipex->infile_fd, argv[1]);
+			ft_close_file(pipex->fd[1], NULL);
+			ft_free_pipex(pipex);
+			perror("./pipex");
+			exit(ERR_DUP);
+		}
 	}
 	ft_close_file(pipex->infile_fd, argv[1]);
 	ft_close_file(pipex->fd[1], NULL);
 	ft_exec_without_path(pipex, envp, pipex->cmd1);
 	ft_exec_with_path(pipex, envp, pipex->cmd1);
+	ft_error(pipex->cmd1[0], "Command not found");
 	ft_free_pipex(pipex);
 	exit(ERR_EXECUTE_CMD);
 }
@@ -108,27 +126,33 @@ static void	ft_child_1(t_pipex	*pipex, char **argv, char **envp)
 	ft_close_file(pipex->fd[0], NULL);
 	ft_exec_without_path(pipex, envp, pipex->cmd2);
 	ft_exec_with_path(pipex, envp, pipex->cmd2);
+	ft_error(pipex->cmd2[0], "Command not found");
 	ft_free_pipex(pipex);
 	exit(ERR_EXECUTE_CMD);
 }
 
-void	ft_child(t_pipex *pipex, char **argv, char **envp, int *status)
+void	ft_child(t_pipex *pipex, char **argv, char **envp)
 {
-	pipex->child[0] = fork();
-	if (pipex->child[0] < 0)
+	if (pipex->infile_fd != -1)
 	{
-		perror ("./pipex");
-		exit (ERR_FORK);
+		pipex->child[0] = fork();
+		if (pipex->child[0] < 0)
+		{
+			perror ("./pipex");
+			exit (ERR_FORK);
+		}
+		else if (pipex->child[0] == 0)
+			ft_child_0(pipex, argv, envp);
 	}
-	else if (pipex->child[0] == 0)
-		ft_child_0(pipex, argv, envp);
-	waitpid(pipex->child[0], status, 0);
-	pipex->child[1] = fork();
-	if (pipex->child[1] < 0)
+	if (pipex->outfile_fd != -1)
 	{
-		perror ("./pipex");
-		exit (ERR_FORK);
+		pipex->child[1] = fork();
+		if (pipex->child[1] < 0)
+		{
+			perror ("./pipex");
+			exit (ERR_FORK);
+		}
+		else if (pipex->child[1] == 0)
+			ft_child_1(pipex, argv, envp);
 	}
-	else if (pipex->child[1] == 0)
-		ft_child_1(pipex, argv, envp);
 }

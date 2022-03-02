@@ -6,11 +6,16 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 16:33:34 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/28 19:39:24 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/02 21:32:51 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+// Изменить порядок 
+// oa-d5% < infile cat_no | ls_no > outfile
+// zsh: command not found: cat_no
+// zsh: permission denied: outfile
 
 static void	ft_check_argc(int argc)
 {
@@ -21,11 +26,8 @@ static void	ft_check_argc(int argc)
 	}
 }
 
-void	ft_error(char *name)
+void	ft_error(char *name, char *str_error)
 {
-	char	*str_error;
-	
-	str_error = strerror(errno);
 	ft_putstr_fd("./pipex: ", 2);
 	ft_putstr_fd(str_error, 2);
 	if (name)
@@ -49,13 +51,15 @@ int	main(int argc, char **argv, char **envp)
 	}
 	ft_open_files(&pipex, argv);
 	ft_parser(&pipex, argv, envp);
-	ft_child(&pipex, argv, envp, &(status[0]));
+	ft_child(&pipex, argv, envp);
 	ft_free_pipex(&pipex);
 	ft_close_file(pipex.infile_fd, argv[1]);
 	ft_close_file(pipex.outfile_fd, argv[4]);
 	ft_close_file(pipex.fd[0], NULL);
 	ft_close_file(pipex.fd[1], NULL);
 	waitpid(pipex.child[1], &(status[1]), 0);
+	waitpid(pipex.child[0], &(status[0]), 0);
+	// change the end of program
 ;	if (WIFEXITED(status[0]) == 0)
 		return (WEXITSTATUS(status[0]));
 	if (WIFEXITED(status[1]) == 0)

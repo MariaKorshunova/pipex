@@ -1,4 +1,6 @@
 # pipex
+project in progress :-)
+
 pipex school42
 simulating the pipe "|" operator in C
 
@@ -337,3 +339,5 @@ https://www.youtube.com/watch?v=6xbLgZpOBi8&t=2s
 4. существующий но недоступный аутфайл - done
 5. код доступа у аутфайла 644 - done
 6. разные комбинации 1-4
+
+< infile_none cat | ls -l > outfile
