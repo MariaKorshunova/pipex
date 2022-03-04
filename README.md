@@ -4,6 +4,54 @@ project in progress :-)
 pipex school42
 simulating the pipe "|" operator in C
 
+## Useful souces
+
+https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901
+
+https://www.youtube.com/watch?v=6xbLgZpOBi8&t=2s
+
+## Cases for checking
+
+ case | infile | cmd1 | cmd2 | outfile  |           example
+------------------------------------------------------------------------------------------------
+  1   |   1    |   1  |   1  |    1     | < infile cat -n | grep 2 > outfile
+------------------------------------------------------------------------------------------------
+  2   |   1    |   1  |   1  |    0     | < infile cat -n | ls -l > outfile chmod 0000
+------------------------------------------------------------------------------------------------
+  3   |   1    |   1  |   0  |    1     | < infile cat -n | ls_no -l > outfile
+------------------------------------------------------------------------------------------------
+  4   |   1    |   1  |   0  |    0     | < infile cat -n | ls_no -l > outfile chmod 0000 
+------------------------------------------------------------------------------------------------
+  5   |   1    |   0  |   1  |    1     | < infile cat_no -n | ls_no -l s> outfile 
+------------------------------------------------------------------------------------------------
+  6   |   1    |   0  |   1  |    0     | < infile cat_no -n | ls -l > outfile chmod 0000
+------------------------------------------------------------------------------------------------
+  7   |   1    |   0  |   0  |    1     | < infile cat_no -n | ls_no -l > outfile 
+------------------------------------------------------------------------------------------------
+  8   |   1    |   0  |   0  |    0     | < infile cat_no -n | ls_no -l > outfile chmod 0000
+------------------------------------------------------------------------------------------------
+  9   |   0    |   1  |   1  |    1     | < infile_no cat -n | ls -l > outfile
+------------------------------------------------------------------------------------------------
+  10  |   0    |   1  |   1  |    0     | < infile_no cat -n | ls -l > outfile chmod 0000
+------------------------------------------------------------------------------------------------
+  11  |   0    |   1  |   0  |    1     | < infile_no cat -n | ls_no -l > outfile
+------------------------------------------------------------------------------------------------
+  12  |   0    |   1  |   0  |    0     | < infile_no cat -n | ls_no -l > outfile chmod 0000
+------------------------------------------------------------------------------------------------
+  13  |   0    |   0  |   1  |    1     | < infile_no cat_no -n | ls -l > outfile
+------------------------------------------------------------------------------------------------
+  14  |   0    |   0  |   1  |    0     | < infile_no cat_no -n | ls -l > outfile chmod 0000
+------------------------------------------------------------------------------------------------
+  15  |   0    |   0  |   0  |    1     | < infile_no cat_no -n | ls_no -l > outfile
+------------------------------------------------------------------------------------------------
+  16  |   0    |   0  |   0  |    0     | < infile_no cat_no -n | ls_no -l > outfile chmod 0000
+------------------------------------------------------------------------------------------------
+  17  |                                 | ./pipex infile yes head outfile
+------------------------------------------------------------------------------------------------
+  18  |                                 | < infile /bin/cat | /bin/ls -l > outfile
+------------------------------------------------------------------------------------------------
+  19  |                                 | ./pipex (invalid arguments)
+
 ## The following functions are allow to use
 
 ### access -- system call checks the accessibility of the file named by the path argument for the access permissions indicated by the mode argument.
@@ -315,29 +363,3 @@ Upon successful completion, fork() returns a value of 0 to the child process and
 The perror() function finds the error message corresponding to the current value of the global variable errno (intro(2)) and writes it, followed by a newline, to the standard error file descriptor.
 
 The strerror() function accepts an error number argument errnum and returns a pointer to the corresponding message string.
-
-## Useful souces
-
-https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901
-
-https://www.youtube.com/watch?v=6xbLgZpOBi8&t=2s
-
-## Cases for checking
-< infile ls -l | wc -l > outfile
-./pipex infile "ls -l" "wc -l" outfile
-
-< infile grep a1 | wc -w > outfile
-./pipex infile "grep a1" "wc -w" outfile
-
-./pipex infile yes head outfile
-
-< infile_none cat | grep 0 > outfile
-
-1. отсутствует или недоступен инфайл - done
-2. неверная команда 1
-3. неверная команда 2
-4. существующий но недоступный аутфайл - done
-5. код доступа у аутфайла 644 - done
-6. разные комбинации 1-4
-
-< infile_none cat | ls -l > outfile

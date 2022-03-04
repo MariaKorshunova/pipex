@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:39:41 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/02 20:36:39 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/04 22:08:30 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,15 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin_slash(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 
-void	ft_error(char *name, char *str_error);
-
 void	ft_parser(t_pipex *pipex, char **argv, char **envp);
 void	ft_child(t_pipex *pipex, char **argv, char **envp);
 
 void	ft_open_files(t_pipex *pipex, char **argv);
 void	ft_close_file(int fd, char *name);
+void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd);
+void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd);
 
+void	ft_error(char *name, char *str_error);
 void	ft_free_array(char **arr);
 void	ft_free_pipex(t_pipex *pipex);
 
