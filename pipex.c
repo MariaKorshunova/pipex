@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 16:33:34 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/04 22:08:57 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/05 15:31:01 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 	int		status[2];
+	// char	*error_infile;
 
 	ft_check_argc(argc);
 	if (pipe(pipex.fd) == -1)
@@ -67,8 +68,8 @@ int	main(int argc, char **argv, char **envp)
 	ft_close_file(pipex.fd[0], NULL);
 	ft_close_file(pipex.fd[1], NULL);
 	ft_waitpid(&pipex, &status[0], &status[1]);
-	printf("status_child_0: %d\n", WEXITSTATUS(status[0]));
-	printf("status_child_1: %d\n", WEXITSTATUS(status[1]));
+	// printf("status_child_0: %d\n", WEXITSTATUS(status[0]));
+	// printf("status_child_1: %d\n", WEXITSTATUS(status[1]));
 	if (WIFEXITED(status[1]) != 0)
 		return (WEXITSTATUS(status[1]));
 	return (0);

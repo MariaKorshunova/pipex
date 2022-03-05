@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:04 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/04 22:08:26 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/05 14:07:24 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ static void	ft_child_0(t_pipex	*pipex, char **argv, char **envp)
 {
 	ft_close_file(pipex->outfile_fd, argv[4]);
 	ft_close_file(pipex->fd[0], NULL);
+	if (pipex->infile_fd == -1)
+	{
+		ft_free_pipex(pipex);
+		ft_close_file(pipex->fd[1], NULL);
+		exit (ERR_FILE);
+	}
 	if (dup2(pipex->infile_fd, STDIN_FILENO) == -1)
 	{
 		ft_close_file(pipex->infile_fd, argv[1]);
@@ -48,6 +54,12 @@ static void	ft_child_1(t_pipex	*pipex, char **argv, char **envp)
 {
 	ft_close_file(pipex->infile_fd, argv[1]);
 	ft_close_file(pipex->fd[1], NULL);
+	if (pipex->outfile_fd == -1)
+	{
+		ft_free_pipex(pipex);
+		ft_close_file(pipex->fd[0], NULL);
+		exit (ERR_FILE);
+	}
 	if (dup2(pipex->fd[0], STDIN_FILENO) == -1)
 	{
 		ft_close_file(pipex->outfile_fd, argv[4]);
@@ -71,28 +83,20 @@ static void	ft_child_1(t_pipex	*pipex, char **argv, char **envp)
 
 void	ft_child(t_pipex *pipex, char **argv, char **envp)
 {
-	pipex->child[0] = -1;
-	pipex->child[1] = -1;
-	if (pipex->infile_fd != -1)
+	pipex->child[0] = fork();
+	if (pipex->child[0] < 0)
 	{
-		pipex->child[0] = fork();
-		if (pipex->child[0] < 0)
-		{
-			perror ("./pipex");
-			exit (ERR_FORK);
-		}
-		else if (pipex->child[0] == 0)
-			ft_child_0(pipex, argv, envp);
+		perror ("./pipex");
+		exit (ERR_FORK);
 	}
-	if (pipex->outfile_fd != -1)
+	else if (pipex->child[0] == 0)
+		ft_child_0(pipex, argv, envp);
+	pipex->child[1] = fork();
+	if (pipex->child[1] < 0)
 	{
-		pipex->child[1] = fork();
-		if (pipex->child[1] < 0)
-		{
-			perror ("./pipex");
-			exit (ERR_FORK);
-		}
-		else if (pipex->child[1] == 0)
-			ft_child_1(pipex, argv, envp);
+		perror ("./pipex");
+		exit (ERR_FORK);
 	}
+	else if (pipex->child[1] == 0)
+		ft_child_1(pipex, argv, envp);
 }
