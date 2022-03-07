@@ -6,7 +6,7 @@
 #    By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:08:19 by jmabel            #+#    #+#              #
-#    Updated: 2022/03/06 17:18:53 by jmabel           ###   ########.fr        #
+#    Updated: 2022/03/07 20:10:11 by jmabel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,11 @@ NAME				= 	pipex_bonus
 
 HEADER				=	pipex_bonus.h
 
-SRCS				=	pipex_bonus.c	free_bonus.c\
+SRCS				=	pipex_bonus.c			libft_utils_bonus.c\
+						free_bonus.c			ft_exec_bonus.c\
+						error_bonus.c			file_operations_bonus.c\
+						parser_bonus.c			ft_split_bonus.c\
+						child_process_bonus.c
 
 OBJ 				= 	$(SRCS:%.c=%.o)
 

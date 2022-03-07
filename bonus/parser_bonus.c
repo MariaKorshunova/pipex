@@ -1,35 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_bonus.c                                       :+:      :+:    :+:   */
+/*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/06 17:13:03 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/07 17:22:33 by jmabel           ###   ########.fr       */
+/*   Created: 2022/03/07 13:06:22 by jmabel            #+#    #+#             */
+/*   Updated: 2022/03/07 17:10:17 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_free_array(char **arr)
+char	**ft_get_path(char **envp)
 {
-	int	i;
-	int	number_str_in_array;
+	int		i;
+	char	**bin_path;
+	size_t	len;
 
+	len = ft_strlen(PATH);
+	if (!envp)
+		return (NULL);
+	if (!(*envp))
+		return (NULL);
 	i = 0;
-	number_str_in_array = 0;
-	while (arr[number_str_in_array] != NULL)
+	while (envp[i] != NULL)
 	{
-		number_str_in_array++;
+		if (!ft_strncmp(envp[i], PATH, len))
+			break ;
+		i++;
 	}
-	while (i < number_str_in_array)
-		free(arr[i++]);
-	free(arr);
+	bin_path = ft_split(envp[i] + len, ':');
+	if (!bin_path)
+	{
+		perror("./pipex: ");
+		exit (errno);
+	}
+	return (bin_path);
 }
 
-void	ft_free_pipex(t_pipex *pipex)
+char	**ft_get_cmd(char *argv)
 {
-	ft_free_array(pipex->bin_path);
-	ft_free_array(pipex->cmd);
+	char	**cmd;
+
+	cmd = ft_split(argv, ' ');
+	return (cmd);
 }

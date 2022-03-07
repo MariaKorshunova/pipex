@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:01:50 by jmabel            #+#    #+#             */
-/*   Updated: 2022/02/28 20:24:40 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/07 15:17:49 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	**ft_get_path(char **envp)
 	bin_path = ft_split(envp[i] + len, ':');
 	if (!bin_path)
 	{
-		perror("");
+		perror("./pipex: ");
 		exit (ERR_MEMORY_ALLOCATE);
 	}
 	return (bin_path);
@@ -49,11 +49,6 @@ static char	**ft_get_cmd(char *argv)
 
 void	ft_parser(t_pipex *pipex, char **argv, char **envp)
 {
-	if (argv[2][0] == '\0' || argv[3][0] == '\0')
-	{
-		ft_putstr_fd("ERR_READ_CMD\n", 2);
-		exit(ERR_READ_CMD);
-	}
 	pipex->bin_path = ft_get_path(envp);
 	pipex->cmd1 = ft_get_cmd(argv[2]);
 	pipex->cmd2 = ft_get_cmd(argv[3]);

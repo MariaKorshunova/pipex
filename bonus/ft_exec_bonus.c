@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec.c                                          :+:      :+:    :+:   */
+/*   ft_exec_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/04 19:52:04 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/07 17:24:18 by jmabel           ###   ########.fr       */
+/*   Created: 2022/03/07 17:17:13 by jmabel            #+#    #+#             */
+/*   Updated: 2022/03/07 17:30:23 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
 {
@@ -19,12 +19,12 @@ void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
 		execve(cmd[0], cmd, envp);
 		ft_free_pipex(pipex);
 		perror("./pipex: ");
-		exit(ERR_EXEC);
+		exit(errno);
 	}
 	if (!pipex->bin_path)
 	{
 		ft_free_pipex(pipex);
-		exit(ERR_EXECUTE_CMD);
+		exit(1);
 	}
 }
 
@@ -41,7 +41,7 @@ void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 		{
 			ft_free_pipex(pipex);
 			perror("./pipex: ");
-			exit (ERR_MEMORY_ALLOCATE);
+			exit (errno);
 		}
 		if (access(cmd_with_path, 01) == 0)
 		{
@@ -49,7 +49,7 @@ void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 			ft_free_pipex(pipex);
 			free(cmd_with_path);
 			perror("./pipex: ");
-			exit(ERR_EXEC);
+			exit(errno);
 		}
 		free(cmd_with_path);
 		i++;

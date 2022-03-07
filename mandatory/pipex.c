@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 16:33:34 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/05 17:37:14 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/07 17:49:56 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_check_argc(argc);
 	if (pipe(pipex.fd) == -1)
 	{
-		perror("./pipex");
+		perror("./pipex: ");
 		exit(ERR_PIPE);
 	}
 	ft_open_files(&pipex, argv);

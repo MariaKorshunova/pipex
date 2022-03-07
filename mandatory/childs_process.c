@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:04 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/05 17:03:38 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/07 15:15:36 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_child(t_pipex *pipex, char **argv, char **envp)
 	pipex->child[0] = fork();
 	if (pipex->child[0] < 0)
 	{
-		perror ("./pipex");
+		perror ("./pipex: ");
 		exit (ERR_FORK);
 	}
 	else if (pipex->child[0] == 0)
@@ -93,7 +93,7 @@ void	ft_child(t_pipex *pipex, char **argv, char **envp)
 	pipex->child[1] = fork();
 	if (pipex->child[1] < 0)
 	{
-		perror ("./pipex");
+		perror ("./pipex: ");
 		exit (ERR_FORK);
 	}
 	else if (pipex->child[1] == 0)
