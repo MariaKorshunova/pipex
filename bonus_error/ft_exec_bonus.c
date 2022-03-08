@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/08 17:54:50 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 17:57:16 by jmabel           ###   ########.fr       */
+/*   Created: 2022/03/07 17:17:13 by jmabel            #+#    #+#             */
+/*   Updated: 2022/03/08 16:51:19 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
 	if (!pipex->bin_path)
 	{
 		ft_free_pipex(pipex);
-		exit(ERR_EXECUTE_CMD);
+		exit(ERR_EXEC);
 	}
 }
 
@@ -54,4 +54,17 @@ void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 		free(cmd_with_path);
 		i++;
 	}
+}
+
+void	ft_exec(t_pipex *pipex, char *cmd, char **envp)
+{
+	pipex->cmd = ft_get_cmd(cmd);
+	if (!pipex->cmd)
+	{
+		ft_free_array(pipex->bin_path);
+		perror("./pipex");
+		exit (ERR_MEMORY_ALLOCATE);
+	}
+	ft_exec_without_path(pipex, envp, pipex->cmd);
+	ft_exec_with_path(pipex, envp, pipex->cmd);
 }

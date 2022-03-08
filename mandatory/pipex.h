@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:39:41 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/07 20:39:00 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/08 18:53:37 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define ERR_MEMORY_ALLOCATE 2
 # define ERR_FILE 3
 # define ERR_READ_CMD 4
-# define ERR_EXECUTE_CMD 5
+# define ERR_EXECUTE_CMD 127
 # define ERR_FORK 6
 # define ERR_DUP 7
 # define ERR_EXEC 8
@@ -59,6 +59,11 @@ void	ft_open_files(t_pipex *pipex, char **argv);
 void	ft_close_file(int fd, char *name);
 void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd);
 void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd);
+
+void	ft_error(char *name, char *str_error);
+void	ft_error_dup(t_pipex *pipex);
+void	ft_error_open_file(t_pipex *pipex, int fd);
+void	ft_error_fork(t_pipex *pipex, char **argv);
 
 void	ft_error(char *name, char *str_error);
 void	ft_free_array(char **arr);

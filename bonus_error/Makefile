@@ -6,17 +6,19 @@
 #    By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:08:19 by jmabel            #+#    #+#              #
-#    Updated: 2022/03/08 18:48:28 by jmabel           ###   ########.fr        #
+#    Updated: 2022/03/07 20:10:11 by jmabel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				= 	pipex
+NAME				= 	pipex_bonus
 
-HEADER				=	pipex.h
+HEADER				=	pipex_bonus.h
 
-SRCS				=	pipex.c	parser.c	childs_process.c	free.c\
-						file_operations.c	ft_exec.c			libft_utils.c\
-						ft_split.c			error.c
+SRCS				=	pipex_bonus.c			libft_utils_bonus.c\
+						free_bonus.c			ft_exec_bonus.c\
+						error_bonus.c			file_operations_bonus.c\
+						parser_bonus.c			ft_split_bonus.c\
+						child_process_bonus.c
 
 OBJ 				= 	$(SRCS:%.c=%.o)
 
@@ -26,6 +28,7 @@ CFLAGS 				= 	-Wall -Wextra -Werror
 RM 					= 	rm -rf
 
 all					:	$(NAME)
+	mv pipex_bonus pipex
 	mv pipex ../
 
 $(NAME)				:	$(OBJ)

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/08 17:55:09 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 18:39:08 by jmabel           ###   ########.fr       */
+/*   Created: 2022/03/07 13:06:22 by jmabel            #+#    #+#             */
+/*   Updated: 2022/03/07 17:10:17 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**ft_get_path(char **envp)
 	if (!bin_path)
 	{
 		perror("./pipex: ");
-		exit (ERR_MEMORY_ALLOCATE);
+		exit (errno);
 	}
 	return (bin_path);
 }

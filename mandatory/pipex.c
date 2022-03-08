@@ -6,23 +6,11 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 16:33:34 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/07 17:49:56 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/08 18:47:43 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	ft_error(char *name, char *str_error)
-{
-	ft_putstr_fd("./pipex: ", 2);
-	ft_putstr_fd(str_error, 2);
-	if (name)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(name, 2);
-	}
-	ft_putstr_fd("\n", 2);
-}
 
 static void	ft_check_argc(int argc)
 {

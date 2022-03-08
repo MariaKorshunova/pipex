@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/08 17:55:14 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 20:47:40 by jmabel           ###   ########.fr       */
+/*   Created: 2022/03/06 13:34:06 by jmabel            #+#    #+#             */
+/*   Updated: 2022/03/08 17:34:29 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,42 @@
 
 static void	ft_check_argc(int argc)
 {
-	if (argc < 5)
+	if (argc != 5)
 	{
 		ft_putstr_fd("./pipex: Invalid number of arguments\n", 2);
 		exit (ERR_NUMBER_ARG);
 	}
 }
 
-static void	ft_wait_childs(t_pipex *pipex)
-{
-	int	i;
-	int	*status;
-
-	i = 0;
-	status = (int *)malloc(sizeof(int) * (pipex->argc - 3));
-	if (!status)
-		exit(ERR_MEMORY_ALLOCATE);
-	while (i < pipex->argc - 3)
-	{
-		if (wait(&(status[i])) == -1)
-			ft_error(NULL, strerror(errno));
-		i++;
-	}
-	i--;
-	while (i >= 0)
-	{
-		if (WIFEXITED(status[i]) != 0)
-			exit (WEXITSTATUS(status[i]));
-		i--;
-	}
-	free(status);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
+	int		i;
+	int		status;
 
 	pipex.argc = argc;
+	i = 0;
 	ft_check_argc(argc);
-	if (pipe(pipex.fd) == -1)
+	if (pipe(pipex.pipe_fd1) == -1)
 	{
 		perror("./pipex: ");
 		exit(ERR_PIPE);
 	}
+	ft_open_files(&pipex, argv);
 	pipex.bin_path = ft_get_path(envp);
-	ft_child(&pipex, argv, envp);
+	ft_child_first(&pipex, argv, envp);
+	ft_child_last(&pipex, (int *)pipex.pipe_fd1, argv, envp);
 	ft_free_array(pipex.bin_path);
-	ft_close_file(pipex.fd[0], NULL);
-	ft_close_file(pipex.fd[1], NULL);
-	ft_wait_childs(&pipex);
+	ft_close_file(pipex.infile_fd, argv[1]);
+	ft_close_file(pipex.outfile_fd, argv[argc - 1]);
+	ft_close_file(pipex.pipe_fd1[0], NULL);
+	ft_close_file(pipex.pipe_fd1[1], NULL);
+	while (i > 0)
+	{
+		wait(&status);
+		i--;
+	}
+	if (WIFEXITED(status) != 0)
+		return (WEXITSTATUS(status));
 	return (0);
 }
