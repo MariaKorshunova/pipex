@@ -6,13 +6,13 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:54:50 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 17:57:16 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/08 21:04:21 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
+static void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
 {
 	if (access(cmd[0], 01) == 0)
 	{
@@ -28,7 +28,7 @@ void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
 	}
 }
 
-void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
+static void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 {
 	int		i;
 	char	*cmd_with_path;
@@ -54,4 +54,14 @@ void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 		free(cmd_with_path);
 		i++;
 	}
+}
+
+void	ft_exec(t_pipex *pipex, char *n_argv, char **envp)
+{
+	ft_get_cmd(pipex, n_argv);
+	ft_exec_without_path(pipex, envp, pipex->cmd);
+	ft_exec_with_path(pipex, envp, pipex->cmd);
+	ft_error(pipex->cmd[0], "Command not found");
+	ft_free_pipex(pipex);
+	exit(ERR_EXECUTE_CMD);
 }

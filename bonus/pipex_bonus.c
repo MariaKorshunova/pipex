@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:55:14 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 20:47:40 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/08 21:10:47 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 
 	pipex.argc = argc;
 	ft_check_argc(argc);
-	if (pipe(pipex.fd) == -1)
+	if (pipe(pipex.pipe1) == -1)
 	{
 		perror("./pipex: ");
 		exit(ERR_PIPE);
@@ -60,8 +60,8 @@ int	main(int argc, char **argv, char **envp)
 	pipex.bin_path = ft_get_path(envp);
 	ft_child(&pipex, argv, envp);
 	ft_free_array(pipex.bin_path);
-	ft_close_file(pipex.fd[0], NULL);
-	ft_close_file(pipex.fd[1], NULL);
+	ft_close_file(pipex.pipe1[0], NULL);
+	ft_close_file(pipex.pipe1[1], NULL);
 	ft_wait_childs(&pipex);
 	return (0);
 }

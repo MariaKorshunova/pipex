@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 18:56:35 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 19:48:12 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/08 21:15:41 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	ft_error_open_file(t_pipex *pipex, int fd)
 
 void	ft_error_fork(t_pipex *pipex)
 {
-	ft_close_file(pipex->fd[0], NULL);
-	ft_close_file(pipex->fd[1], NULL);
+	// проверить, какие пайпы открыты
+	// ft_close_file(pipex->fd[0], NULL);
+	// ft_close_file(pipex->fd[1], NULL);
 	ft_free_array(pipex->bin_path);
 	perror ("./pipex: ");
 	exit (ERR_FORK);

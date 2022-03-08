@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:39:41 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 19:48:17 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/08 21:10:36 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ typedef struct s_pipex
 	int		argc;
 	int		infile_fd;
 	int		outfile_fd;
-	int		fd[2];
-	pid_t	child[2];
+	int		pipe1[2];
+	int		pipe2[2];
+	pid_t	child;
 	char	**bin_path;
 	char	**cmd;
 }		t_pipex;
@@ -57,9 +58,8 @@ void	ft_open_outfile(t_pipex *pipex, char **argv);
 void	ft_close_file(int fd, char *name);
 
 char	**ft_get_path(char **envp);
-char	**ft_get_cmd(char *argv);
-void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd);
-void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd);
+void	ft_get_cmd(t_pipex *pipex, char *argv);
+void	ft_exec(t_pipex *pipex, char *n_argv, char **envp);
 void	ft_child(t_pipex *pipex, char **argv, char **envp);
 
 void	ft_error(char *name, char *str_error);

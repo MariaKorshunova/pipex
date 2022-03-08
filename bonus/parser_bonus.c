@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:55:09 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 18:39:08 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/08 20:59:28 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ char	**ft_get_path(char **envp)
 	return (bin_path);
 }
 
-char	**ft_get_cmd(char *argv)
+void	ft_get_cmd(t_pipex *pipex, char *argv)
 {
-	char	**cmd;
-
-	cmd = ft_split(argv, ' ');
-	return (cmd);
+	pipex->cmd = ft_split(argv, ' ');
+	if (!pipex->cmd)
+	{
+		ft_free_array(pipex->bin_path);
+		perror("./pipex");
+		exit (ERR_MEMORY_ALLOCATE);
+	}
 }
