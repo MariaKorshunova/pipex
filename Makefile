@@ -6,15 +6,15 @@
 #    By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 15:28:13 by jmabel            #+#    #+#              #
-#    Updated: 2022/03/08 18:57:46 by jmabel           ###   ########.fr        #
+#    Updated: 2022/03/11 21:38:02 by jmabel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 all					:
-	make -C ./bonus
+	make -C ./mandatory
 
-# bonus				:
-# 	make -C ./bonus
+bonus				:
+	make -C ./bonus
 
 .PHONY				:	all clean fclean re bonus
 
