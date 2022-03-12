@@ -1,5 +1,5 @@
 # pipex
-project in progress :-)
+Status: in progress
 
 pipex school42
 simulating the pipe "|" operator in C
@@ -11,6 +11,8 @@ https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901
 https://www.youtube.com/watch?v=6xbLgZpOBi8&t=2s
 
 ## Cases for checking
+
+Some cases for checking in mandatory part
 
  case | infile | cmd1 | cmd2 | outfile  |           example
 ------------------------------------------------------------------------------------------------

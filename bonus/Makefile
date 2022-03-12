@@ -6,42 +6,39 @@
 #    By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 17:08:19 by jmabel            #+#    #+#              #
-#    Updated: 2022/03/08 18:56:54 by jmabel           ###   ########.fr        #
+#    Updated: 2022/03/12 09:56:44 by jmabel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				= 	pipex_bonus
+NAME		=  ../pipex
 
-HEADER				=	pipex_bonus.h
+HEADER		=  pipex_bonus.h
 
-SRCS				=	pipex_bonus.c				parser_bonus.c\
-						childs_process_bonus.c		free_bonus.c\
-						file_operations_bonus.c		ft_exec_bonus.c\
-						libft_utils_bonus.c			ft_split_bonus.c\
-						error_bonus.c
+CC 			= 	cc
+CFLAGS		=  -Wall -Wextra -Werror
 
-OBJ 				= 	$(SRCS:%.c=%.o)
+SRCS 		=	pipex_bonus.c				parser_bonus.c\
+				childs_process_bonus.c		free_bonus.c\
+				file_operations_bonus.c		ft_exec_bonus.c\
+				libft_utils_bonus.c			ft_split_bonus.c\
+				error_bonus.c
 
-CC 					= 	cc 
-CFLAGS 				= 	-Wall -Wextra -Werror
+OBJ			=  $(SRCS:.c=.o)
 
-RM 					= 	rm -rf
+all			:  $(NAME)
 
-all					:	$(NAME)
-	mv pipex_bonus pipex
-	mv pipex ../
+$(NAME)		:  $(OBJ)
+	$(CC) $(OBJ) -o $(NAME)
 
-$(NAME)				:	$(OBJ)
-
-%.o					: %.c $(HEADER)
+%.o	:  %.c $(HEADER)
 	$(CC) $(CFLAGS)  -c  $<  -o $@
-	
-.PHONY				:	all clean fclean re
 
-clean:
+.PHONY		:  all clean fclean re
+
+clean		:
 	$(RM) $(OBJ)
 
-fclean				: clean
-	$(RM) ../$(NAME)
+fclean		: clean
+	$(RM) $(NAME)
 
-re					: fclean all
+re			:  fclean all
