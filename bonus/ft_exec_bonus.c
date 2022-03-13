@@ -6,11 +6,35 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:54:50 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 21:04:21 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/13 12:50:04 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+static char	*ft_strjoin_with_endchar(char const *s1, char const *s2, char c)
+{
+	char	*dest;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	dest = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
+	if (dest == NULL)
+		return (NULL);
+	while (i < ft_strlen(s1))
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	dest[i] = c;
+	j = i + 1;
+	i = 0;
+	while (i < ft_strlen(s2))
+		dest[j++] = s2[i++];
+	dest[j] = '\0';
+	return (dest);
+}
 
 static void	ft_exec_without_path(t_pipex *pipex, char **envp, char **cmd)
 {
@@ -36,7 +60,8 @@ static void	ft_exec_with_path(t_pipex *pipex, char **envp, char **cmd)
 	i = 0;
 	while (pipex->bin_path[i] != NULL)
 	{
-		cmd_with_path = ft_strjoin_slash(pipex->bin_path[i], cmd[0]);
+		cmd_with_path = ft_strjoin_with_endchar(pipex->bin_path[i],
+				cmd[0], '/');
 		if (!cmd_with_path)
 		{
 			ft_free_pipex(pipex);

@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:54:34 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/11 21:41:05 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/13 17:02:03 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,16 @@ void	ft_open_infile(t_pipex *pipex, char **argv)
 
 void	ft_open_outfile(t_pipex *pipex, char **argv)
 {
-	pipex->outfile_fd = open(argv[pipex->argc - 1],
-			O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (pipex->heredoc == 1)
+	{
+		pipex->outfile_fd = open(argv[pipex->argc - 1],
+				O_CREAT | O_RDWR | O_APPEND, 0644);
+	}
+	else
+	{
+		pipex->outfile_fd = open(argv[pipex->argc - 1],
+				O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
 	if (pipex->outfile_fd == -1)
 		ft_error(argv[pipex->argc - 1], strerror(errno));
 }

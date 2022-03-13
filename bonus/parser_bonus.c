@@ -6,13 +6,13 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:55:09 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 20:59:28 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/13 12:00:11 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-char	**ft_get_path(char **envp)
+char	**ft_get_path(t_pipex *pipex, char **envp)
 {
 	int		i;
 	char	**bin_path;
@@ -33,6 +33,8 @@ char	**ft_get_path(char **envp)
 	bin_path = ft_split(envp[i] + len, ':');
 	if (!bin_path)
 	{
+		ft_close_file(pipex->pipe1[0], NULL);
+		ft_close_file(pipex->pipe1[1], NULL);
 		perror("./pipex: ");
 		exit (ERR_MEMORY_ALLOCATE);
 	}

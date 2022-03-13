@@ -6,7 +6,7 @@
 /*   By: jmabel <jmabel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:55:03 by jmabel            #+#    #+#             */
-/*   Updated: 2022/03/08 17:57:25 by jmabel           ###   ########.fr       */
+/*   Updated: 2022/03/13 12:41:01 by jmabel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,39 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*ft_strjoin_slash(char const *s1, char const *s2)
+int	ft_strncmp_exact_match(const char *s1, const char *s2)
 {
-	char	*dest;
-	size_t	i;
-	size_t	j;
+	int	i;
 
 	i = 0;
-	dest = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
-	if (dest == NULL)
-		return (NULL);
-	while (i < ft_strlen(s1))
+	if (!s1 && !s2)
+		return (0);
+	if (!s1 || !s2)
+		return (-1);
+	while (s1[i] != '\0' && s2[i] != '\0' )
 	{
-		dest[i] = s1[i];
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
 		i++;
 	}
-	dest[i] = '/';
-	j = i + 1;
+	if (s1[i] != '\0' || s2[i] != '\0')
+		return (-1);
+	return (0);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	*str;
+	int		i;
+
 	i = 0;
-	while (i < ft_strlen(s2))
-		dest[j++] = s2[i++];
-	dest[j] = '\0';
-	return (dest);
+	if (!s)
+		return (NULL);
+	str = (char *)s;
+	while (str[i] != '\0' && str[i] != (char)c)
+		i++;
+	if (str[i] != (char)c)
+		return (NULL);
+	else
+		return ((char *)s + i);
 }
