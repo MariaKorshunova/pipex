@@ -1,11 +1,13 @@
 # pipex
-Status: done
-Grade: 125
+
+**Status**: done
+
+**Grade**: 125
 
 Pipex school42
-simulating the pipe "|" operator in C
-Handle multiple pipes.
-Support « and » when the first parameter is "here_doc".
+* Simulating the pipe "|" operator in C
+* Handle multiple pipes.
+* Support « and » when the first parameter is "here_doc".
 
 
 ## Useful souces
