@@ -69,6 +69,7 @@ void	ft_manage_middle_child(t_pipex *pipex, char **argv, int *i)
 				ft_error_pipe(pipex, 1);
 			ft_child_middle(pipex, argv[start_middle_cmd + *i],
 				pipex->pipe1, pipex->pipe2);
+			ft_close_file(pipex->pipe1[0], NULL);
 			ft_close_file(pipex->pipe1[1], NULL);
 		}
 		else

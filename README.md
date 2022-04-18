@@ -59,6 +59,8 @@ Some cases for checking in mandatory part
 	18  |                                 | < infile /bin/cat | /bin/ls -l > outfile
 	------------------------------------------------------------------------------------------------
 	19  |                                 | ./pipex (invalid arguments)
+	------------------------------------------------------------------------------------------------
+	20  |                                 | ./pipex infile yes tee tee head outfile (for bonus part)
 
 ## The following functions are allow to use
 
